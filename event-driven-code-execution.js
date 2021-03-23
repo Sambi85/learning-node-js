@@ -1,4 +1,4 @@
-// Parsing- requesting body
+// Event Driven Code
 
 const http = require('http');
 const fs = require('fs');
@@ -16,20 +16,25 @@ const server = http.createServer( (req,res) => {
         return res.end();
     }
 
+    // Since req.on() is carrying callbacks, 
+    //they only referenced when executing the code. 
+    //When the call stack runs, you'll get an error if you don't add a return statement
+    // we need to wait for our req.on(end...) to finish building out the body!!!! 
+
     if(url === '/message' && method === 'POST') {
-        const body = []; // <-- our body
-        req.on('data', chunk => {  //<-- .on() is event listener + chunks of data from async
+        const body = [];
+        req.on('data', chunk => {
             console.log(chunk);
-            body.push(chunk); // <-- push to body array 
+            body.push(chunk);
         });
-        req.on('end', () => {
-            const parsedBody = Buffer.concat(body).toString(); //<-- use Buffer(holds async code) + .concat() on body + convert to string 
-            const message = parsedBody.split('=')[1]; //<-- split into elements by '='            fs.writeFileSync('message.txt',message)
+        return req.on('end', () => { //<-- HERE you WANT to wait for this async. code. Thus we use a return ! 
+            const parsedBody = Buffer.concat(body).toString();
+            const message = parsedBody.split('=')[1];
             fs.writeFileSync('message.txt', message);  
+            res.statusCode = 302;
+            res.setHeader('Location','/');
+            return res.end();
         })
-        res.statusCode = 302;
-        res.setHeader('Location','/');
-        return res.end();
 
     }
         res.setHeader('Content-Type', 'text.html');
