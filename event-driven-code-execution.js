@@ -30,10 +30,17 @@ const server = http.createServer( (req,res) => {
         return req.on('end', () => { //<-- HERE you WANT to wait for this async. code. Thus we use a return ! 
             const parsedBody = Buffer.concat(body).toString();
             const message = parsedBody.split('=')[1];
-            fs.writeFileSync('message.txt', message);  
-            res.statusCode = 302;
-            res.setHeader('Location','/');
-            return res.end();
+
+            // fs.writeFileSync('message.txt', message);  //<-- won't run until done, this blocks code and that's problematic ...
+            
+            fs.writeFile('message.txt', message, err => { //<-- new syntax! and callback function
+
+                res.statusCode = 302;  //<-- move this code inside
+                res.setHeader('Location','/');
+                return res.end();
+
+                // This refactor, never blocks code which is IDEAL! Faster + Better UX!  
+            }); 
         })
 
     }
