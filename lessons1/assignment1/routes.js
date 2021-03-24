@@ -1,6 +1,6 @@
 //XXX---1. spin up a server 
-// 2. handle 2 routes: '/' + '/users'
-// 3. add a form, POST request on click
+//XXX---2. handle 2 routes: '/' + '/users'
+//XXX---3. add a form, POST request on click
 // 4. Add the '/create-user', parse data, console.log it
 
 const fs = require('fs');
@@ -29,10 +29,13 @@ const greeting = `
 const create =
 `<html>
     <header>
-    <title> Submit Username </title>
+    <title> Create Username </title>
     </header>
     <body>
-    <form action="/message" method="POST">
+    <form 
+        action="/create-user" 
+        method="POST"
+    >
         <input type="text" name="create-username">
             <button type="submit">
                 Submit
@@ -44,25 +47,35 @@ const create =
 const requestHandler = (req, res) => {
     const url = req.url;
     const method = req.method;
-
+    
+    if(url === '/') {
+        res.write(greeting);
+        res.write(create);
+        return res.end();
+    }
+    
     if(url === '/users'){
         res.write(users);
       return res.end();
     }
 
-    if(url === '/create'){
-        res.write(create);
-      return res.end();
-    }
-
-    if(url === '/create' && method === 'POST'){
-        res.write(create);
-      return res.end();
-    }
-
-    if(url === '/') {
-        res.write(greeting);
-        return res.end();
+    if(url === '/create-user' && method === 'POST'){
+        const body = [];
+        req.on('data', chunk => {
+            console.log(chunk);
+            body.push(chunk);
+        });
+        return req.on('end', () => {
+            const parsedBody = Buffer.concat(body).toString();
+            const create = parsedBody.split('=')[1];
+            
+            fs.writeFile('createdUser.txt', create, err => {
+                res.statusCode = 302;
+                res.setHeader('Location','/');
+                console.log(create)
+                return res.end();
+            });
+        });
     }
 }
 
