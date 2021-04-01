@@ -22,7 +22,15 @@ app.use('/add-product', (req, res, next) => {
 } )
 
 // under /product we redirect to home page with .redirect() which is baked-in to express ! 
-app.use('/product',(req, res, next) => {
+// app.use('/product',(req, res, next) => {
+//     res.redirect('/');
+// })
+
+
+// LIMITING Middleware function to specific requests !!!
+
+// .get() listens for get requests, .post() listens for posts, etc...
+app.get('/product',(req, res, next) => {
     res.redirect('/');
 })
 
