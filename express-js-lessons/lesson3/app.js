@@ -2,8 +2,8 @@ const http = require('http');
 const express = require('express');
 const app = express();
 
-// The idea is we fire off middleware with .next() 
-// and we stop this chain of events with a .send()
+// The idea is we use a series of Middleware function calls  with .next()  
+// and we can stop this chain of events with something like .send()
 
 app.use( (req, res, next) => {
     console.log('In the middleware!');
