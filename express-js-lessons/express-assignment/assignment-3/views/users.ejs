@@ -1,0 +1,33 @@
+<%- include('includes/head.ejs')  %>
+<body>
+    <header class="main-header">
+        <nav class="main-header__nav">
+            <ul class="main-header__item-list">
+                <li class="main-header__item"><a class="<%= path === '/admin/users' ? 'active' : '' %>" href="/">Add Username</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <form class="user-form" action="/user" method="POST">
+            <div class="form-control">
+                <label for="title">Username Form</label>
+                <input type="text" name="title" id="title">
+            </div>
+
+            <button class="btn" type="submit">Add Username</button>
+        </form>
+        
+            <% if(users.length > 0) { %>
+                <ul>
+                    <% console.log(users)%>
+            <% for(let user of users) { %>
+                <li><%= user.title %></li>
+            <% } %>    
+            </ul>
+            <% } else { %>
+                <%= null %>
+                <% } %>
+    
+    </main>
+
+<%- include('includes/end.ejs')  %>
