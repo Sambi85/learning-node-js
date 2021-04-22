@@ -12,8 +12,9 @@ app.use(shopRoutes);
 
 app.use('/admin', adminRoutes); //<-- here we filter out paths, path + adminRoutes variable
 
-app.use( (req, res, next) => { //<-- 404 page!  
-    res.status(404).send('<h1> 404 Page not Found </h1>');
+app.use( (req, res, next) => {
+    res.sendFile(path.join(__dirname, "views","page-not-found.html"))  
 });
+//<-- deleted 404 res.status(). We made an html page for this in views!!!
 
 app.listen(3003);

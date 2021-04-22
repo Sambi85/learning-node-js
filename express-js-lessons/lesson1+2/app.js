@@ -26,7 +26,6 @@ app.use( (req, res, next) => {
 } )
 
 
-
 const server = http.createServer(app); //<-- in lieu of our routes variable, we place express
 
 server.listen(3003);

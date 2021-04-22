@@ -12,6 +12,9 @@ Concepts:
 
 - Setting up a server
 - Setting up Routes
+- redirecting a page
+- 404 page
+- Filtering Routes 
 - Using modules baked-in to Node.js
 - Using 3rd party modules
 - Using Node.js Debugger Tools
