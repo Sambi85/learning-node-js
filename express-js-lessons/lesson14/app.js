@@ -19,10 +19,4 @@ app.use( (req, res, next) => {
     res.status(404).render('404', { pageTitle: 'Page Not Found' })  
 });// <--- refactor the middle ware 
 
-
-
-
-
-
-
 app.listen(3003);
