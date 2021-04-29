@@ -38,7 +38,6 @@ app.use('/',(req, res, next) => {
     console.log('another middleware!');
     res.send('<h1>Hello from Express!</h1>') 
  } )
- 
 
 
 
