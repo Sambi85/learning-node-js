@@ -1,6 +1,9 @@
 const express = require('express')
 const bodyParser = require('body-parser'); 
 // const path = require('path') // <-- not needed
+
+const errorController = require('./controllers/error')
+
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -15,12 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
-app.use( (req, res, next) => {
-    res.status(404).render('404', { pageTitle: 'Page Not Found' })  
-});// <--- refactor the middle ware 
-
-
-
+app.use(errorController.get404);// <--- refactor 404
 
 
 app.listen(3003);
