@@ -21,13 +21,3 @@ app.use(shopRoutes);
 app.use(errorController.get404);// <--- refactor 404
 
 app.listen(3003);
-
-
-
-
-
-
-
-
-
-
